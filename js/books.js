@@ -1,9 +1,35 @@
 import data from './books.json' with {type: 'json'}
-console.log(data);
+
+saveBooksToStorage(data);
+
+function saveBooksToStorage(books) {
+    localStorage.setItem('booksData', JSON.stringify(books));
+}
+
+function getBooksFromStorage() {
+    const savedData = localStorage.getItem('booksData');
+    if (savedData) {
+        return JSON.parse(savedData);
+    } else {
+        console.error("No data found in localStorage");
+        return [];
+    }
+}
 
 function getList(){
+    const booksData=getBooksFromStorage();
     let bookListDiv=document.querySelector(".bookList");
-    data.books.forEach(book => {
+    bookListDiv.innerHTML="";
+
+    const headers = ['Id', 'Title', 'Price', 'Action'];
+    headers.forEach(header => {
+        const headerDiv = document.createElement('div');
+        headerDiv.className = "grid-header"; 
+        headerDiv.textContent = header;
+        bookListDiv.appendChild(headerDiv); 
+    });
+
+    booksData.books.forEach(book => {
         const idDiv = document.createElement('div');
         idDiv.className="book-item";
         idDiv.textContent=book.id;
@@ -31,6 +57,7 @@ function getList(){
         const buttonDelete = document.createElement('button');
         buttonDelete.className="book-btn delete";
         buttonDelete.textContent="Delete"
+        buttonDelete.onclick=()=>deleteBook(book.id);
 
         actionDiv.appendChild(buttonRead)
         actionDiv.appendChild(buttonUpdate)
@@ -45,10 +72,14 @@ function getList(){
 getList();
 
 function readBook(bookId){
-    const book=data.books.find(book=>book.id==bookId);
-    localStorage.setItem('currentBook',JSON.stringify(book));
-    
-    bookDisaplay(book);
+    const booksData=getBooksFromStorage();
+    const book=booksData.books.find(book=>book.id==bookId);
+    if (book){ 
+        localStorage.setItem('currentBook',JSON.stringify(book));
+        bookDisaplay(book);
+    }else {
+        console.error("Book not found.");
+    }
 }
 
 function bookDisaplay(book){
@@ -57,7 +88,7 @@ function bookDisaplay(book){
     const bookImageElement = document.querySelector(".book-image");
     const bookRateElement = document.querySelector(".rate");
 
-    bookRateElement.textContent="";
+    bookRateElement.textContent="rate:";
     const buttonSub=document.createElement('button');
     buttonSub.textContent="-";
     buttonSub.onclick=()=>updateRate(book.id,-1);
@@ -81,6 +112,21 @@ function bookDisaplay(book){
 
     bookTitleElement.textContent=book.title;
     bookPriceElement.textContent=`Price: ${book.price}`
+
+    const buttonClose=document.createElement('button');
+    buttonClose.textContent="buttonClose";
+    buttonClose.onclick=()=>closeBook();
+
+    const readBookDiv=document.querySelector(".readBook");
+    const buttonCloseDiv=document.querySelector(".buttonClose");
+    buttonCloseDiv.innerHTML="";
+    readBookDiv.classList.remove('hidden');
+    buttonCloseDiv.appendChild(buttonClose)
+}
+
+function closeBook(){
+    const readBookDiv=document.querySelector(".readBook");
+    readBookDiv.classList.add('hidden'); 
 }
 
 function updateRate(bookId,value){
@@ -102,3 +148,25 @@ window.onload = function() {
         bookDisaplay(book); 
     }
 };
+
+function addBook(newBook) {
+    const booksData=getBooksFromStorage();
+    books.push(newBook);
+    saveBooksToStorage(booksData); 
+}
+
+function deleteBook(bookId) {
+    let booksData = getBooksFromStorage();
+    booksData.books = booksData.books.filter(book => book.id !== bookId); // מעדכן את הרשימה בתוך booksData
+    saveBooksToStorage(booksData); // שמירת המערך המעודכן
+    localStorage.removeItem(`bookRating_${bookId}`); // מחיקת ה-Rate של הספר
+    console.log("Book deleted with id:", bookId);
+    getList();
+    const storedBook = localStorage.getItem('currentBook');
+    if(storedBook){
+        const currentBook = JSON.parse(storedBook);
+        if(closeBook.id==bookId){
+            closeBook();
+        }
+    }
+}
