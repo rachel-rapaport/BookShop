@@ -1,0 +1,35 @@
+{
+    "books": [
+      {
+        "id": 1,
+        "price": 99.99,
+        "title": "Wireless Mouse",
+        "image": "../images/autumn-park.jpg"
+      },
+      {
+        "id": 2,
+        "price": 199.99,
+        "title": "Mechanical Keyboard",
+        "image": "../images/lake-in-the-mountains.jpg"
+      },
+      {
+        "id": 3,
+        "price": 49.99,
+        "title": "USB-C Hub",
+        "image": "../images/landscape-with-lighthouse-tower.jpg"
+      },
+      {
+        "id": 4,
+        "price": 29.99,
+        "title": "HDMI Cable",
+        "image": "../images/mountain-summer-landscape.jpg"
+      },
+      {
+        "id": 5,
+        "price": 149.99,
+        "title": "Bluetooth Headphones",
+        "image": "../images/nature-landscape-with-house.jpg"
+      }
+    ]
+  }
+  
