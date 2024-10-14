@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../css/home.css">
+    <!-- <script type="module" src="../js/bookCRUD.js" defer></script> -->
+    <script type="module" src="../js/books.js" defer></script>
 </head>
 <body>
     <header>
@@ -15,5 +17,26 @@
             <button>load data</button>
         </div>
     </header>
+
+    <div class="main">
+        <div class="bookList">
+                <div class="grid-header">Id</div>
+                <div class="grid-header">Title</div>
+                <div class="grid-header">Price</div>
+                <div class="grid-header">Action</div>
+        </div>
+    
+        <div class="readBook">
+            <div class="book-title"></div>
+            <div class="book-Container">
+                <div class="book-image"></div>
+                    <div class="price-rate">
+                        <div class="price"></div>
+                        <div class="rate"></div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    
 </body>
 </html>
