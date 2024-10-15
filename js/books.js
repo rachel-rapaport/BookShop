@@ -1,12 +1,20 @@
 import data from './books.json' with {type: 'json'}
+import { getList } from './bookCRUD.js';
 
-saveBooksToStorage(data);
+function loadData(){
+    saveBooksToStorage(data)
+    //לבדוק למה לא עובד
+    getList();
+    // closeBook();
+}
+window.loadData=loadData;
 
-function saveBooksToStorage(books) {
+export function saveBooksToStorage(books) {
     localStorage.setItem('booksData', JSON.stringify(books));
+    console.log("----------------------------")
 }
 
-function getBooksFromStorage() {
+export function getBooksFromStorage() {
     const savedData = localStorage.getItem('booksData');
     if (savedData) {
         return JSON.parse(savedData);
@@ -16,77 +24,80 @@ function getBooksFromStorage() {
     }
 }
 
-function getList(){
-    const booksData=getBooksFromStorage();
-    let bookListDiv=document.querySelector(".bookList");
-    bookListDiv.innerHTML="";
+// function getList(){
+//     const booksData=getBooksFromStorage();
 
-    const headers = ['Id', 'Title', 'Price', 'Action'];
-    headers.forEach(header => {
-        const headerDiv = document.createElement('div');
-        headerDiv.className = "grid-header"; 
-        headerDiv.textContent = header;
-        bookListDiv.appendChild(headerDiv); 
-    });
+//     let bookListDiv=document.querySelector(".bookList");
+//     bookListDiv.innerHTML="";
 
-    booksData.books.forEach(book => {
-        const idDiv = document.createElement('div');
-        idDiv.className="book-item";
-        idDiv.textContent=book.id;
+//     const headers = ['Id', 'Title', 'Price', 'Action'];
+//     headers.forEach(header => {
+//         const headerDiv = document.createElement('div');
+//         headerDiv.className = "grid-header"; 
+//         headerDiv.textContent = header;
+//         bookListDiv.appendChild(headerDiv); 
+//     });
 
-        const titleDiv = document.createElement('div');
-        titleDiv.className="book-item";
-        titleDiv.textContent=book.title;
+//     booksData.books.forEach(book => {
+//         const idDiv = document.createElement('div');
+//         idDiv.className="book-item";
+//         idDiv.textContent=book.id;
 
-        const priceDiv = document.createElement('div');
-        priceDiv.className="book-item";
-        priceDiv.textContent=book.price;
+//         const titleDiv = document.createElement('div');
+//         titleDiv.className="book-item";
+//         titleDiv.textContent=book.title;
 
-        const actionDiv = document.createElement('div');
-        actionDiv.className="book-item";
+//         const priceDiv = document.createElement('div');
+//         priceDiv.className="book-item";
+//         priceDiv.textContent=book.price;
 
-        const buttonRead=document.createElement('button');
-        buttonRead.className="book-btn";
-        buttonRead.textContent="Read"
-        buttonRead.onclick=()=>readBook(book.id);        
+//         const actionDiv = document.createElement('div');
+//         actionDiv.className="book-item";
 
-        const buttonUpdate = document.createElement('button');
-        buttonUpdate.className="book-btn update";
-        buttonUpdate.textContent="Update"
+//         const buttonRead=document.createElement('button');
+//         buttonRead.className="book-btn";
+//         buttonRead.textContent="Read"
+//         buttonRead.onclick=()=>readBook(book.id);        
 
-        const buttonDelete = document.createElement('button');
-        buttonDelete.className="book-btn delete";
-        buttonDelete.textContent="Delete"
-        buttonDelete.onclick=()=>deleteBook(book.id);
+//         const buttonUpdate = document.createElement('button');
+//         buttonUpdate.className="book-btn update";
+//         buttonUpdate.textContent="Update"
 
-        actionDiv.appendChild(buttonRead)
-        actionDiv.appendChild(buttonUpdate)
-        actionDiv.appendChild(buttonDelete)
+//         const buttonDelete = document.createElement('button');
+//         buttonDelete.className="book-btn delete";
+//         buttonDelete.textContent="Delete"
+//         buttonDelete.onclick=()=>deleteBook(book.id);
 
-        bookListDiv.appendChild(idDiv);
-        bookListDiv.appendChild(titleDiv);
-        bookListDiv.appendChild(priceDiv);
-        bookListDiv.appendChild(actionDiv);
-    });
-}
-getList();
+//         actionDiv.appendChild(buttonRead)
+//         actionDiv.appendChild(buttonUpdate)
+//         actionDiv.appendChild(buttonDelete)
 
-function readBook(bookId){
-    const booksData=getBooksFromStorage();
-    const book=booksData.books.find(book=>book.id==bookId);
-    if (book){ 
-        localStorage.setItem('currentBook',JSON.stringify(book));
-        bookDisaplay(book);
-    }else {
-        console.error("Book not found.");
-    }
-}
+//         bookListDiv.appendChild(idDiv);
+//         bookListDiv.appendChild(titleDiv);
+//         bookListDiv.appendChild(priceDiv);
+//         bookListDiv.appendChild(actionDiv);
+//     });
+// }
+// getList();
 
-function bookDisaplay(book){
+// function getBookById(bookId){
+//     const booksData=getBooksFromStorage();
+//     const book=booksData.books.find(book=>book.id==bookId);
+//     if (book){ 
+//         localStorage.setItem('currentBook',JSON.stringify(book));
+//         bookDisaplay(book);
+//     }else {
+//         console.error("Book not found.");
+//     }
+// }
+
+export function bookDisaplay(book){
     const bookTitleElement = document.querySelector(".book-title");
     const bookPriceElement = document.querySelector(".price");
     const bookImageElement = document.querySelector(".book-image");
     const bookRateElement = document.querySelector(".rate");
+    const readBookDiv=document.querySelector(".readBook");
+    const buttonCloseDiv=document.querySelector(".buttonClose");
 
     bookRateElement.textContent="rate:";
     const buttonSub=document.createElement('button');
@@ -100,6 +111,7 @@ function bookDisaplay(book){
     const buttonAdd=document.createElement('button');
     buttonAdd.textContent="+";
     buttonAdd.onclick=()=>updateRate(book.id,1);
+
     bookRateElement.appendChild(buttonSub);
     bookRateElement.appendChild(rateNumDiv);
     bookRateElement.appendChild(buttonAdd);
@@ -113,20 +125,12 @@ function bookDisaplay(book){
     bookTitleElement.textContent=book.title;
     bookPriceElement.textContent=`Price: ${book.price}`
 
+    buttonCloseDiv.innerHTML="";
+    readBookDiv.classList.remove('hidden');
     const buttonClose=document.createElement('button');
     buttonClose.textContent="buttonClose";
     buttonClose.onclick=()=>closeBook();
-
-    const readBookDiv=document.querySelector(".readBook");
-    const buttonCloseDiv=document.querySelector(".buttonClose");
-    buttonCloseDiv.innerHTML="";
-    readBookDiv.classList.remove('hidden');
     buttonCloseDiv.appendChild(buttonClose)
-}
-
-function closeBook(){
-    const readBookDiv=document.querySelector(".readBook");
-    readBookDiv.classList.add('hidden'); 
 }
 
 function updateRate(bookId,value){
@@ -149,73 +153,78 @@ window.onload = function() {
     }
 };
 
-function addBook(newBook) {
-    const booksData=getBooksFromStorage();
-    books.push(newBook);
-    saveBooksToStorage(booksData); 
+export function closeBook(){
+    const readBookDiv=document.querySelector(".readBook");
+    readBookDiv.classList.add('hidden'); 
 }
 
-function deleteBook(bookId) {
-    let booksData = getBooksFromStorage();
-    booksData.books = booksData.books.filter(book => book.id !== bookId); // מעדכן את הרשימה בתוך booksData
-    saveBooksToStorage(booksData); // שמירת המערך המעודכן
-    localStorage.removeItem(`bookRating_${bookId}`); // מחיקת ה-Rate של הספר
-    console.log("Book deleted with id:", bookId);
-    getList();
-    const storedBook = localStorage.getItem('currentBook');
-    if(storedBook){
-        const currentBook = JSON.parse(storedBook);
-        if(currentBook.id==bookId){
-            closeBook();
-        }
-    }
-}
+// function addBook(newBook) {
+//     const booksData=getBooksFromStorage();
+//     books.push(newBook);
+//     saveBooksToStorage(booksData); 
+// }
+
+// function deleteBook(bookId) {
+//     let booksData = getBooksFromStorage();
+//     booksData.books = booksData.books.filter(book => book.id !== bookId); // מעדכן את הרשימה בתוך booksData
+//     saveBooksToStorage(booksData); // שמירת המערך המעודכן
+//     localStorage.removeItem(`bookRating_${bookId}`); // מחיקת ה-Rate של הספר
+//     console.log("Book deleted with id:", bookId);
+//     getList();
+//     const storedBook = localStorage.getItem('currentBook');
+//     if(storedBook){
+//         const currentBook = JSON.parse(storedBook);
+//         if(currentBook.id==bookId){
+//             closeBook();
+//         }
+//     }
+// }
 
 
-function model(){
-    document.getElementById('coverUrl').addEventListener('change', function(event) {
-        const file = event.target.files[0]; // קובץ התמונה שהמשתמש העלה
+// function model(){
+//     // document.getElementById('coverUrl').addEventListener('change', function(event) {
+//     //     const file = event.target.files[0]; // קובץ התמונה שהמשתמש העלה
     
-        if (file) {
-            const reader = new FileReader();
+//     //     if (file) {
+//     //         const reader = new FileReader();
             
-            reader.onload = function(e) {
-                const imgPreview = document.getElementById('coverPreview');
-                imgPreview.src = e.target.result; // הצגת התמונה שנקראה על ידי FileReader בתור Data URL
-                imgPreview.style.display = 'block'; // הצגת האלמנט של התמונה
-            }
+//     //         reader.onload = function(e) {
+//     //             const imgPreview = document.getElementById('coverPreview');
+//     //             imgPreview.src = e.target.result; // הצגת התמונה שנקראה על ידי FileReader בתור Data URL
+//     //             imgPreview.style.display = 'block'; // הצגת האלמנט של התמונה
+//     //         }
     
-            reader.readAsDataURL(file); // קריאת הקובץ כתמונה בפורמט Data URL
-        }
-    });
+//     //         reader.readAsDataURL(file); // קריאת הקובץ כתמונה בפורמט Data URL
+//     //     }
+//     // });
     
-    document.getElementById('bookForm').addEventListener('submit', function(event) {
-        event.preventDefault();  // מניעת שליחה ברירת מחדל של הטופס
+//     // document.getElementById('bookForm').addEventListener('submit', function(event) {
+//     //     event.preventDefault();  // מניעת שליחה ברירת מחדל של הטופס
     
-        // יצירת אובייקט ספר מהטופס
-        const book = {
-            id: document.getElementById('id').value,
-            title: document.getElementById('title').value,
-            price: document.getElementById('price').value,
-            image: document.getElementById('coverPreview').src  // לוקח את התמונה מ-Data URL
-        };
+//     //     // יצירת אובייקט ספר מהטופס
+//     //     const book = {
+//     //         id: document.getElementById('id').value,
+//     //         title: document.getElementById('title').value,
+//     //         price: document.getElementById('price').value,
+//     //         image: document.getElementById('coverPreview').src  // לוקח את התמונה מ-Data URL
+//     //     };
     
-        // קבלת הספרים מה-localStorage
-        let books = getBooksFromStorage();
+//     //     // קבלת הספרים מה-localStorage
+//     //     let books = getBooksFromStorage();
     
-        // הוספת הספר החדש לרשימת הספרים
-        books.books.push(book);
+//     //     // הוספת הספר החדש לרשימת הספרים
+//     //     books.books.push(book);
     
-        // שמירת הרשימה המעודכנת בחזרה ב-localStorage
-        localStorage.setItem('booksData', JSON.stringify(books));
+//     //     // שמירת הרשימה המעודכנת בחזרה ב-localStorage
+//     //     localStorage.setItem('booksData', JSON.stringify(books));
     
-        // ניקוי הטופס
-        document.getElementById('bookForm').reset();
-        document.getElementById('coverPreview').style.display = 'none'; // הסתרת התמונה לאחר ההוספה
-        bookModal.style.display = 'none'; // סגירת ה-Modal
+//     //     // ניקוי הטופס
+//     //     document.getElementById('bookForm').reset();
+//     //     document.getElementById('coverPreview').style.display = 'none'; // הסתרת התמונה לאחר ההוספה
+//     //     bookModal.style.display = 'none'; // סגירת ה-Modal
     
-        // עדכון רשימת הספרים המוצגת
-        getList();
-    });
-}
-model()
+//     //     // עדכון רשימת הספרים המוצגת
+//     //     getList();
+//     // });
+// }
+// model()
