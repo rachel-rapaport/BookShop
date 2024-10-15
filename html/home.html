@@ -11,10 +11,10 @@
 <body>
     <header>
         <div class="addBook">
-            <button>+ New book</button>
+            <button onclick="document.getElementById('bookModal').style.display='block'">+ New book</button>
         </div>
         <div class="loadData">
-            <button>load data</button>
+            <button onclick="currentBook()">load data</button>
         </div>
     </header>
 
@@ -32,6 +32,37 @@
             </div>
             <div class="buttonClose"></div>
         </div>
+    </div>
+
+
+       <!-- New Book Modal -->
+       <div id="bookModal" class="modal">
+        <span onclick="document.getElementById('bookModal').style.display='none'" class="close" title="Close Modal">&times;</span>
+        <form class="modal-content animate" id="bookForm">
+            <div class="container">
+                <h2>+ New book</h2>
+                <hr class="dashed">
+                <label for="id">Id</label>
+                <input type="number" id="id" name="id" required>
+
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" required>
+
+                <label for="price">Price</label>
+                <input type="text" id="price" name="price" required>
+
+                <label for="coverUrl">Cover Image URL</label>
+                <input type="file" id="coverUrl" name="coverUrl" accept="image/*" required>
+
+                
+            </div>
+            <img id="coverPreview" alt="Cover Preview" style="display:none; width: 100px;">
+
+            <div class="container" >
+                <button type="submit">Add</button>
+                <button type="button" onclick="document.getElementById('bookModal').style.display='none'" class="cancelbtn">Cancel</button>
+            </div>
+        </form>
     </div>
     
 </body>

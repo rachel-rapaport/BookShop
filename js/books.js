@@ -165,8 +165,57 @@ function deleteBook(bookId) {
     const storedBook = localStorage.getItem('currentBook');
     if(storedBook){
         const currentBook = JSON.parse(storedBook);
-        if(closeBook.id==bookId){
+        if(currentBook.id==bookId){
             closeBook();
         }
     }
 }
+
+
+function model(){
+    document.getElementById('coverUrl').addEventListener('change', function(event) {
+        const file = event.target.files[0]; // קובץ התמונה שהמשתמש העלה
+    
+        if (file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const imgPreview = document.getElementById('coverPreview');
+                imgPreview.src = e.target.result; // הצגת התמונה שנקראה על ידי FileReader בתור Data URL
+                imgPreview.style.display = 'block'; // הצגת האלמנט של התמונה
+            }
+    
+            reader.readAsDataURL(file); // קריאת הקובץ כתמונה בפורמט Data URL
+        }
+    });
+    
+    document.getElementById('bookForm').addEventListener('submit', function(event) {
+        event.preventDefault();  // מניעת שליחה ברירת מחדל של הטופס
+    
+        // יצירת אובייקט ספר מהטופס
+        const book = {
+            id: document.getElementById('id').value,
+            title: document.getElementById('title').value,
+            price: document.getElementById('price').value,
+            image: document.getElementById('coverPreview').src  // לוקח את התמונה מ-Data URL
+        };
+    
+        // קבלת הספרים מה-localStorage
+        let books = getBooksFromStorage();
+    
+        // הוספת הספר החדש לרשימת הספרים
+        books.books.push(book);
+    
+        // שמירת הרשימה המעודכנת בחזרה ב-localStorage
+        localStorage.setItem('booksData', JSON.stringify(books));
+    
+        // ניקוי הטופס
+        document.getElementById('bookForm').reset();
+        document.getElementById('coverPreview').style.display = 'none'; // הסתרת התמונה לאחר ההוספה
+        bookModal.style.display = 'none'; // סגירת ה-Modal
+    
+        // עדכון רשימת הספרים המוצגת
+        getList();
+    });
+}
+model()
