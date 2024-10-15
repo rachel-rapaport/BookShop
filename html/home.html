@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../css/home.css">
-    <!-- <script type="module" src="../js/bookCRUD.js" defer></script> -->
+    <script type="module" src="../js/bookCRUD.js" defer></script>
     <script type="module" src="../js/books.js" defer></script>
+    <script type="module" src="../js/bookModel.js" defer></script>
 </head>
 <body>
     <header>
@@ -14,7 +15,7 @@
             <button onclick="document.getElementById('bookModal').style.display='block'">+ New book</button>
         </div>
         <div class="loadData">
-            <button onclick="currentBook()">load data</button>
+            <button onclick="loadData()">load data</button>
         </div>
     </header>
 
@@ -34,9 +35,8 @@
         </div>
     </div>
 
-
-       <!-- New Book Modal -->
-       <div id="bookModal" class="modal">
+    <!-- New Book Modal -->
+    <div id="bookModal" class="modal">
         <span onclick="document.getElementById('bookModal').style.display='none'" class="close" title="Close Modal">&times;</span>
         <form class="modal-content animate" id="bookForm">
             <div class="container">
