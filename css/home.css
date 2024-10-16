@@ -1,6 +1,7 @@
 * {
     box-sizing: border-box;
 }
+
 header {
     position: sticky;
     top: 0;
@@ -81,15 +82,14 @@ header {
 }
 
 img {
-    max-width: 250px;
+    max-width: 100%;
+    height: auto; 
 }
 
 .price-rate {
     display: block; 
     margin-top: 15%;
     text-align: left;
-    /* margin-right: 20%;
-    padding: 10px; */
 }
 
 .price {
@@ -128,27 +128,30 @@ img {
 .hidden {
     display: none;
 }
+
 .buttonClose {
-    margin-top: 20px; /* רווח עליון */
+    margin-top: 20px; 
     float: right;
     margin-right: 10%;
 }
 
 .buttonClose button{
-    background-color: #ff4c4c; /* צבע רקע */
-    color: white; /* צבע טקסט */
-    border: none; /* מסגרת */
-    border-radius: 5px; /* פינות מעוגלות */
-    padding: 10px 15px; /* ריפוד פנימי */
-    font-size: 16px; /* גודל גופן */
-    cursor: pointer; /* משנה את הצבע כשמעבירים מעל */
-    transition: background-color 0.3s; /* אפקט מעבר */
+    background-color: #ff4c4c;
+    color: white; 
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer; 
+    transition: background-color 0.3s;
 }
+
 .buttonClose button:hover {
-    background-color: #ff1a1a; /* צבע רקע חדש כאשר העכבר מעל */
+    background-color: #ff1a1a;
 }
-/* ---------------- */
-/* Modal container */
+
+/* -- Book Modal -- */
+
 .modal {
     display: none; 
     position: fixed; 
@@ -163,7 +166,6 @@ img {
     padding-top: 60px;
 }
 
-/* Modal Content */
 .modal-content {
     background-color: #333;
     margin: 5% auto;
@@ -175,7 +177,6 @@ img {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-/* Close button */
 .close {
     position: absolute;
     right: 25px;
@@ -193,7 +194,8 @@ img {
     cursor: pointer;
 }
 
-/* Form styles */
+/* Form */
+
 label {
     display: block;
     margin-bottom: 8px;
@@ -232,7 +234,7 @@ button[type="submit"]:hover {
     float: right;
 }
 
-/* עבור מסכים קטנים יותר (טלפונים) */
+
 @media screen and (max-width: 1099px) {
     .main {
         flex-direction: column;
@@ -248,7 +250,7 @@ button[type="submit"]:hover {
 
     .book-Container {
         flex-direction: column;
-        align-items: center; /* Center book-container elements */
+        align-items: center; 
     }
 
     .price-rate {
@@ -257,42 +259,25 @@ button[type="submit"]:hover {
     }
 
     .rate {
-        /* display: flex; */
-        /* flex-direction: column; */
-        align-items: center; /* Align rate buttons in the center */
-        margin-right: 0; /* Remove margin-right for centering */
+        align-items: center; 
+        margin-right: 0; 
     }
 
     .buttonClose {
-        text-align: center; /* Center the close button */
-        margin: 20px 0; /* Adjust margin for spacing */
-        float: none; /* Remove float to center the button */
+        text-align: center; 
+        margin: 20px 0; 
+        float: none; 
     }
-    
-   
-
-    /* .readBook {
-        width: 100%; /* להרחיב את הכרטיסים של הספרים */
-    /* }  */
-
-    /* .buttonClose {
-        margin-right: 0;
-        } */
 
     .modal-content {
         width: 90%; /* להרחיב את המודל */
     }
-}
-img {
-    max-width: 100%; /* לאפשר לתמונות להתאים לגובה המיכל */
-    height: auto; /* לשמור על יחס התמונה */
 }
 
 @media screen and (max-width: 450px) {
     .bookList{
         margin-left: 10%;
     }
-
 }
 
 
