@@ -10,6 +10,7 @@
     <script type="module" src="../js/bookModel.js" defer></script>
 </head>
 <body>
+    
     <header>
         <div class="addBook">
             <button onclick="document.getElementById('bookModal').style.display='block'">+ New book</button>
@@ -21,27 +22,27 @@
 
     <div class="main">
         <div class="bookList"></div>
-    
         <div class="readBook">
             <div class="book-title"></div>
             <div class="book-Container">
                 <div class="book-image"></div>
-                    <div class="price-rate">
-                        <div class="price"></div>
-                        <div class="rate"></div>
-                    </div>
+                <div class="price-rate">
+                    <div class="price"></div>
+                    <div class="rate"></div>
+                </div>
             </div>
             <div class="buttonClose"></div>
         </div>
     </div>
 
-    <!-- New Book Modal -->
+    <!-- Book Modal -->
     <div id="bookModal" class="modal">
         <span onclick="document.getElementById('bookModal').style.display='none'" class="close" title="Close Modal">&times;</span>
         <form class="modal-content animate" id="bookForm">
             <div class="container">
                 <h2>+ New book</h2>
                 <hr class="dashed">
+
                 <label for="id">Id</label>
                 <input type="number" id="id" name="id" required>
 
@@ -49,13 +50,12 @@
                 <input type="text" id="title" name="title" required>
 
                 <label for="price">Price</label>
-                <input type="number" id="price" name="price" required>
+                <input type="number" id="price" name="price" step="0.01" min="0" required>
 
                 <label for="coverUrl">Cover Image URL</label>
                 <input type="file" id="coverUrl" name="coverUrl" accept="image/*" required>
-
-                
             </div>
+
             <img id="coverPreview" alt="Cover Preview" style="display:none; width: 100px;">
 
             <div class="container" >
