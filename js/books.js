@@ -4,7 +4,7 @@ import { getList } from './bookCRUD.js';
 function loadData(){
     saveBooksToStorage(data)
     //לבדוק למה לא עובד
-    getList();
+    // getList();
     // closeBook();
 }
 window.loadData=loadData;
@@ -228,3 +228,32 @@ export function closeBook(){
 //     // });
 // }
 // model()
+
+export function sortBooksByPrice(order) {
+    const booksData = getBooksFromStorage();
+
+    if (order === 'asc') {
+        booksData.books.sort((a, b) => a.price - b.price); // סדר עולה
+    } else if (order === 'desc') {
+        booksData.books.sort((a, b) => b.price - a.price); // סדר יורד
+    }
+
+    saveBooksToStorage(booksData);
+    getList(); // הצגת הרשימה הממוינת מחדש
+}
+
+
+export function sortBooksByTitle(order) {
+    let booksData = getBooksFromStorage();
+    booksData.books.sort((a, b) => {
+        if (order === 'asc') {
+            return a.title.localeCompare(b.title);
+        } else {
+            return b.title.localeCompare(a.title);
+        }
+    });
+    saveBooksToStorage(booksData);
+    getList();
+}
+
+

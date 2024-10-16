@@ -1,3 +1,6 @@
+* {
+    box-sizing: border-box;
+}
 header {
     position: sticky;
     top: 0;
@@ -6,7 +9,7 @@ header {
     color: #f1f1f1;
     display: flex;
     justify-content: space-between;
-    width: 97%;
+    width: 100%;
 }
 
 .main {
@@ -19,7 +22,7 @@ header {
     display: grid;
     grid-template-columns: auto auto auto auto;
     grid-gap: 10px;
-    margin: 20px auto;
+    margin: 5% auto;
     text-align: center;
     margin-top: 5%;
     width: 60%;
@@ -69,6 +72,7 @@ header {
     padding: 10px;
     border-bottom: 2px solid #ccc;
     text-align: center;
+    width: 100%;
 }
 
 .book-Container {
@@ -84,8 +88,8 @@ img {
     display: block; 
     margin-top: 15%;
     text-align: left;
-    margin-right: 20%;
-    padding: 10px;
+    /* margin-right: 20%;
+    padding: 10px; */
 }
 
 .price {
@@ -227,3 +231,68 @@ button[type="submit"]:hover {
     border-radius: 4px;
     float: right;
 }
+
+/* עבור מסכים קטנים יותר (טלפונים) */
+@media screen and (max-width: 1099px) {
+    .main {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .readBook {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .book-Container {
+        flex-direction: column;
+        align-items: center; /* Center book-container elements */
+    }
+
+    .price-rate {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .rate {
+        /* display: flex; */
+        /* flex-direction: column; */
+        align-items: center; /* Align rate buttons in the center */
+        margin-right: 0; /* Remove margin-right for centering */
+    }
+
+    .buttonClose {
+        text-align: center; /* Center the close button */
+        margin: 20px 0; /* Adjust margin for spacing */
+        float: none; /* Remove float to center the button */
+    }
+    
+   
+
+    /* .readBook {
+        width: 100%; /* להרחיב את הכרטיסים של הספרים */
+    /* }  */
+
+    /* .buttonClose {
+        margin-right: 0;
+        } */
+
+    .modal-content {
+        width: 90%; /* להרחיב את המודל */
+    }
+}
+img {
+    max-width: 100%; /* לאפשר לתמונות להתאים לגובה המיכל */
+    height: auto; /* לשמור על יחס התמונה */
+}
+
+@media screen and (max-width: 450px) {
+    .bookList{
+        margin-left: 10%;
+    }
+
+}
+
+
